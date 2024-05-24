@@ -65,7 +65,7 @@ function TeamsNotif{
     "sections": [{
         "activityTitle": "$Employee -- Deprovision Update",
         "activitySubtitle": "Via Azure Automate",
-        "activityImage": "https://linqwpdevstor.blob.core.windows.net/desktopwallpaper/_LINQ_Icon_FullColor_AlphaBG_RGB.png",
+        "activityImage": "<URL>",
         "facts": [{
             "name": "UPN:",
             "value": "$UPNLower"
@@ -120,7 +120,7 @@ function LicenseAssignment {
 function ApplyEmailForwarding {
     write-output "running email forwarding fucntion"
     write-output "connecting to exchange online"
-    Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "emslinqinc.onmicrosoft.com"
+    Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "<ORGNAME>.onmicrosoft.com"
     write-output "applying email forwarding & hiding from GAL"
     set-mailbox -identity $UPNLower -ForwardingAddress $EmailForward -HiddenFromAddressListsEnabled $true
     write-output "disconnecting from exchange online"
@@ -235,7 +235,7 @@ if ($DLCheck.Count -ge 1)
     try {
        #connects to exchange online
         write-output "Connecting to Exchange online"
-        Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "emslinqinc.onmicrosoft.com"
+        Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "<ORGNAME>.onmicrosoft.com"
         write-output "Connected"
     }
     catch {
@@ -270,7 +270,7 @@ elseif($DLCheck.count -eq 0)
 
 if ($CalendarRemoval -eq "Yes") {
     write-output "removing Calendar events"
-    Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "emslinqinc.onmicrosoft.com"
+    Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "<ORGNAME>.onmicrosoft.com"
     try {
         Remove-CalendarEvents -identity $UPNLower -CancelOrganizedMeetings -QueryWindowInDays 90 -Confirm:$false
     }
