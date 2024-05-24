@@ -30,9 +30,9 @@ if ($WebHookData){
     #seperates the supervisor name into two parts
     $SupFirstname, $SupLastname = $Supervisor.split()
     #sets the upn for the supervisor
-    $Manager = $SupFirstname.SubString(0,1)+$SupLastname+'@linq.com'
+    $Manager = $SupFirstname.SubString(0,1)+$SupLastname+'@<DOMAIN>.com'
     #substring collects the first letter of $Firstname
-    $UPN = $Firstname.SubString(0,1)+$Lastname+'@linq.com'
+    $UPN = $Firstname.SubString(0,1)+$Lastname+'@<DOMAIN>.com'
     #makes the $UPN variable all lowercase
     $UPNlower = $UPN.ToLower()
     $Displayname = $Firstname+' '+$Lastname
@@ -122,7 +122,7 @@ function TeamsNotif{
     "sections": [{
         "activityTitle": "$Displayname -- Provision Update",
         "activitySubtitle": "Via Azure Automate",
-        "activityImage": "https://linqwpdevstor.blob.core.windows.net/desktopwallpaper/_LINQ_Icon_FullColor_AlphaBG_RGB.png",
+        "activityImage": "<URL>",
         "facts": [{
             "name": "UPN:",
             "value": "$UPNLower"
@@ -163,7 +163,7 @@ $UserCheck = (get-mguser -userid $UPNlower -ErrorAction 'SilentlyContinue').User
 
 #user exists, leave script
 if ($Usercheck -eq $UPNlower) {
-    Write-output "$UPNlower already exists. Exiting script...."        ######THIS BLOCK CAN BE IMPROVED.. ADDING EXTRA STEPS TO CHANGE THE UPN FOR FirstinitialSecondinitialLastname@linq.com instead of quitting the script
+    Write-output "$UPNlower already exists. Exiting script...."     
     write-output "Disconnecting..."
     Disconnect-MGgraph
     #$Notes = "$UPNLower already exists."
@@ -190,7 +190,7 @@ If(($EmploymentType -eq "Employee (full time)") -or ($EmploymentType -eq "Intern
     #try statement to catch errors when making the user
     try{
         #creates the user
-        New-MgUser -DisplayName $Displayname -PasswordProfile $EmployeePassword -AccountEnabled -MailNickName $MailNickNamelower -UserPrincipalName $UPNlower -UsageLocation US -Department $Department -JobTitle $Title -CompanyName "EMS LINQ, Inc." -GivenName $Firstname -Surname $Lastname -ErrorAction 'Stop'
+        New-MgUser -DisplayName $Displayname -PasswordProfile $EmployeePassword -AccountEnabled -MailNickName $MailNickNamelower -UserPrincipalName $UPNlower -UsageLocation US -Department $Department -JobTitle $Title -CompanyName "<ORG NAME>" -GivenName $Firstname -Surname $Lastname -ErrorAction 'Stop'
         #Adds user to requested groups, not fleshed out yet... -- should add variables with groupid's contianed, like the licenses
         #New-MgGroupMember -GroupId GroupIDHere -DirectoryObjectID UserIDHere
     }
@@ -232,7 +232,7 @@ If(($EmploymentType -eq "Employee (full time)") -or ($EmploymentType -eq "Intern
 
     Disconnect-MGgraph
 
-    Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "emslinqinc.onmicrosoft.com"
+    Connect-ExchangeOnline -CertificateThumbprint $Thumbprint -AppId $APPID -Organization "<ORGNAME>.onmicrosoft.com"
     try {
         write-output "attempting to add to company group"
         Add-DistributionGroupMember -identity $FullTimeMailEnabledGroups -member $UPNlower -ErrorAction 'Stop'
