@@ -15,8 +15,8 @@ function Display-ToastNotification() {
     }
 }
 # Setting image variables
-$LogoImageUri = "https://linqwpdevstor.blob.core.windows.net/desktopwallpaper/_LINQ_Icon_FullColor_AlphaBG_RGB.png"
-$HeroImageUri = "https://linqwpdevstor.blob.core.windows.net/desktopwallpaper/_LINQ_Icon_FullColor_AlphaBG_RGB.png"
+$LogoImageUri = "URL"
+$HeroImageUri = "URL"
 $LogoImage = "$env:TEMP\ToastLogoImage.png"
 $HeroImage = "$env:TEMP\ToastHeroImage.png"
 $Uptime= get-computerinfo | Select-Object OSUptime 
@@ -30,7 +30,7 @@ Invoke-WebRequest -Uri $HeroImageUri -OutFile $HeroImage
 $Scenario = 'reminder' # <!-- Possible values are: reminder | short | long -->
         
 # Load Toast Notification text
-$AttributionText = "LINQ IT"
+$AttributionText = "ORG IT"
 $HeaderText = "Computer Restart is needed!"
 $TitleText = "Your device has not performed a reboot the last $($Uptime.OsUptime.Days) days"
 $BodyText1 = "For performance and stability reasons we suggest a reboot at least once a week."
